@@ -28,6 +28,7 @@ public final class TicketDao {
         try (Connection connection = ConnectionManager.open()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_TICKET);
+            preparedStatement.setFetchSize(10);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
