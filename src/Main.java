@@ -9,7 +9,8 @@ public class Main {
 
         String tableName = "ticket";
 
-        ticketDao.selectAllTable(tableName).forEach(System.out::println);
+//        ticketDao.selectFromTable(tableName).forEach(System.out::println);
 
+        ticketDao.selectFromTableById(5).forEach(System.out::println);
     }
 }

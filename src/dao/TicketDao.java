@@ -16,11 +16,12 @@ public final class TicketDao {
 
     public static final TicketDao INSTANCE = new TicketDao();
     public static final String SELECT_FROM_TICKET = "SELECT * FROM ticket";
+    public static final String SELECT_FROM_TICKET_BY_ID = "SELECT * FROM ticket WHERE id=?";
 
     private TicketDao() {
     }
 
-    public List<Ticket> selectAllTable(String tableName) throws SQLException {
+    public List<Ticket> selectFromTable(String tableName) throws SQLException {
 
         List<Ticket> ticketList = new ArrayList<>();
 
@@ -33,6 +34,23 @@ public final class TicketDao {
                 ticketList.add(getTicket(resultSet));
             }
             System.out.println(connection.getTransactionIsolation());
+        }
+        return ticketList;
+    }
+
+    public List<Ticket> selectFromTableById(int id) throws SQLException {
+
+        List<Ticket> ticketList = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.open()) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_TICKET_BY_ID);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ticketList.add(getTicket(resultSet));
+            }
         }
         return ticketList;
     }
